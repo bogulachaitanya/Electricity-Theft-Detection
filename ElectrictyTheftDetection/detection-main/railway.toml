@@ -1,0 +1,12 @@
+# Electricity Theft Detection - Railway Deployment
+# This file tells Railway how to build and deploy the services
+
+[build]
+# Use the frontend Dockerfile by default (main service)
+dockerfilePath = "frontend/Dockerfile"
+
+[deploy]
+healthcheckPath = "/_stcore/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3

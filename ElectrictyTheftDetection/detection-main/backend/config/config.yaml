@@ -1,0 +1,50 @@
+# Electricity Theft Detection - System Configuration
+
+dataset:
+  input_path: "data/raw/sgcc/data set.csv"
+  processed_path: "data/processed/clean_sgcc.csv"
+  features_path: "data/processed/features_sgcc.csv"
+
+preprocessing:
+  resample_frequency: "D"
+  z_score_threshold: 3.0
+  impute_method: "ffill"
+  impute_limit: 3
+
+features:
+  correlation_threshold: 0.95
+  top_k_fourier: 10
+
+models:
+  isolation_forest:
+    n_estimators: 200
+    contamination: 0.05
+  lof:
+    n_neighbors: 20
+    contamination: 0.05
+  lstm_autoencoder:
+    epochs: 10
+    batch_size: 64
+    validation_split: 0.15
+  xgboost:
+    n_estimators: 300
+    learning_rate: 0.05
+    max_depth: 6
+
+ensemble:
+  weights:
+    xgboost: 0.50
+    lstm: 0.20
+    isolation_forest: 0.15
+    lof: 0.15
+  risk_tiers:
+    normal: [0, 30]
+    suspicious: [31, 60]
+    high_risk: [61, 80]
+    theft: [81, 100]
+
+domain_rules:
+  zero_streak_days: 30
+  zero_streak_bonus: 20
+  sudden_drop_sigma: 1.5
+  sudden_drop_bonus: 15
